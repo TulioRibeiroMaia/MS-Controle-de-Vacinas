@@ -1,0 +1,5 @@
+CREATE TABLE Citizen (
+    cpf VARCHAR NOT NULL,
+    fullName VARCHAR NOT NULL,
+    birthDate VARCHAR NOT NULL,
+    cns VARCHAR NOT NULL);
