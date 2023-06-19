@@ -4,6 +4,7 @@ import mscitizen.dto.request.HealthCenterRequestDTO;
 import mscitizen.dto.response.HealthCenterResponseDTO;
 import mscitizen.entity.HealthCenter;
 import mscitizen.enums.State;
+import mscitizen.exceptions.CnesDoesnExistsException;
 import mscitizen.exceptions.ResourceNotFoundException;
 import mscitizen.repository.HealthCenterRepository;
 import mscitizen.service.HealthCenterService;
@@ -61,7 +62,7 @@ public class HealthCenterImplementation implements HealthCenterService {
             return modelMapper.map(healthCenter.get(), HealthCenterResponseDTO.class);
         }
 
-        throw new ResourceNotFoundException("CNES " + cnes);
+        throw new CnesDoesnExistsException(cnes);
     }
 
     @Override
@@ -76,7 +77,7 @@ public class HealthCenterImplementation implements HealthCenterService {
             return modelMapper.map(updatedHealthCenter, HealthCenterResponseDTO.class);
         }
 
-        throw new ResourceNotFoundException("CNES " + cnes);
+        throw new CnesDoesnExistsException(cnes);
     }
 
     @Override
@@ -84,7 +85,7 @@ public class HealthCenterImplementation implements HealthCenterService {
         Optional<HealthCenter> healthCenter = this.healthCenterRepository.findByCnes(cnes);
 
         if (!healthCenter.isPresent()) {
-            throw new ResourceNotFoundException("CNES " + cnes);
+            throw new CnesDoesnExistsException(cnes);
         }
 
         this.healthCenterRepository.deleteById(healthCenter.get().getId());

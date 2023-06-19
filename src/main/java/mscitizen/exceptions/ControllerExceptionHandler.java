@@ -89,11 +89,21 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(FeignException.FeignClientException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ErrorMessage FeignException(FeignException ex, WebRequest request) {
+    public ErrorMessage feignException(FeignException ex, WebRequest request) {
         return new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 new Date(),
                 ex.getCause().getLocalizedMessage(),
+                request.getDescription(false));
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorMessage badRequestException(BadRequestException ex, WebRequest request) {
+        return new ErrorMessage(
+                HttpStatus.BAD_REQUEST.value(),
+                new Date(),
+                ex.getMessage(),
                 request.getDescription(false));
     }
 }

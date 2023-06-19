@@ -3,6 +3,8 @@ package mscitizen.service.implementation;
 import mscitizen.dto.request.CitizenRequestDTO;
 import mscitizen.dto.response.CitizenResponseDTO;
 import mscitizen.entity.Citizen;
+import mscitizen.exceptions.CpfAlreadyExistsException;
+import mscitizen.exceptions.CpfDoesntExistsException;
 import mscitizen.exceptions.ResourceNotFoundException;
 import mscitizen.repository.CitizenRepository;
 import mscitizen.repository.VaccineRepository;
@@ -30,11 +32,7 @@ public class CitizenServiceImplementation implements CitizenService {
 
     @Override
     public CitizenResponseDTO save(CitizenRequestDTO body) {
-        Optional<Citizen> citizen = this.citizenRepository.findByCpf(body.getCpf());
-        if (citizen.isPresent()){
-            throw new IllegalArgumentException("Não é possível cadastrar um novo cidadão pois o CPF " + body.getCpf() + " já está cadastrado!");
-        }
-
+        validateIfCPFExists(body);
         Citizen citizen1 = modelMapper.map(body, Citizen.class);
         Citizen savedCitizen = this.citizenRepository.save(citizen1);
         return modelMapper.map(savedCitizen, CitizenResponseDTO.class);
@@ -71,7 +69,7 @@ public class CitizenServiceImplementation implements CitizenService {
             return modelMapper.map(citizen.get(), CitizenResponseDTO.class);
         }
 
-        throw new ResourceNotFoundException("CPF " + cpf);
+        throw new CpfDoesntExistsException(cpf);
     }
 
     @Override
@@ -86,7 +84,7 @@ public class CitizenServiceImplementation implements CitizenService {
             return modelMapper.map(updatedCitizen, CitizenResponseDTO.class);
         }
 
-        throw new ResourceNotFoundException("CPF " + cpf);
+        throw new CpfDoesntExistsException(cpf);
     }
 
     @Override
@@ -94,9 +92,16 @@ public class CitizenServiceImplementation implements CitizenService {
         Optional<Citizen> citizen = this.citizenRepository.findByCpf(cpf);
 
         if (!citizen.isPresent()) {
-            throw new ResourceNotFoundException("CPF " + cpf);
+            throw new CpfDoesntExistsException(cpf);
         }
 
         this.citizenRepository.deleteById(citizen.get().getId());
+    }
+
+    private void validateIfCPFExists(CitizenRequestDTO body) {
+        Optional<Citizen> citizen = this.citizenRepository.findByCpf(body.getCpf());
+        if (citizen.isPresent()){
+            throw new CpfAlreadyExistsException(body.getCpf());
+        }
     }
 }

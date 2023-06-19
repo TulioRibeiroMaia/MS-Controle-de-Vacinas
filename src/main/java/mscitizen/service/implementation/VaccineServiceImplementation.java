@@ -3,7 +3,10 @@ package mscitizen.service.implementation;
 import mscitizen.dto.request.VaccineRequestDTO;
 import mscitizen.dto.response.VaccineResponseDTO;
 import mscitizen.entity.Vaccine;
+import mscitizen.exceptions.LotNumberAlreadyExistsException;
 import mscitizen.exceptions.ResourceNotFoundException;
+import mscitizen.exceptions.VaccineIDDoesntExistsException;
+import mscitizen.exceptions.VaccineNameAndManufacturerAlreadyExistsException;
 import mscitizen.repository.VaccineRepository;
 import mscitizen.service.VaccineService;
 import org.modelmapper.ModelMapper;
@@ -26,11 +29,12 @@ public class VaccineServiceImplementation implements VaccineService {
 
     @Override
     public VaccineResponseDTO save(VaccineRequestDTO body) {
-       Vaccine vaccine = modelMapper.map(body, Vaccine.class);
+        validateVaccineNameAndManufacturer(body);
+        validateLotNumber(body);
+        Vaccine vaccine = modelMapper.map(body, Vaccine.class);
        Vaccine savedVaccine = this.vaccineRepository.save(vaccine);
        return modelMapper.map(savedVaccine,VaccineResponseDTO.class);
     }
-
     @Override
     public List<VaccineResponseDTO> getVaccines(String lotNumber, Boolean sortExpDate) {
         List<Vaccine> vaccines;
@@ -60,7 +64,7 @@ public class VaccineServiceImplementation implements VaccineService {
             return modelMapper.map(vaccine.get(), VaccineResponseDTO.class);
         }
 
-        throw new ResourceNotFoundException("ID " + id);
+        throw new VaccineIDDoesntExistsException(id);
     }
 
     @Override
@@ -75,7 +79,7 @@ public class VaccineServiceImplementation implements VaccineService {
             return modelMapper.map(updatedVaccine, VaccineResponseDTO.class);
         }
 
-        throw new ResourceNotFoundException("ID " + id);
+        throw new VaccineIDDoesntExistsException(id);
     }
 
     @Override
@@ -83,9 +87,23 @@ public class VaccineServiceImplementation implements VaccineService {
         Optional<Vaccine> vaccine = this.vaccineRepository.findById(id);
 
         if (!vaccine.isPresent()) {
-            throw new ResourceNotFoundException("ID " + id);
+            throw new VaccineIDDoesntExistsException(id);
         }
 
         this.vaccineRepository.deleteById(id);
+    }
+
+    private void validateLotNumber(VaccineRequestDTO body) {
+        Optional<Vaccine> vaccineLotNumber = this.vaccineRepository.findByLotNumber(body.getLotNumber());
+        if (vaccineLotNumber.isPresent()) {
+            throw new LotNumberAlreadyExistsException(body.getLotNumber());
+        }
+    }
+
+    private void validateVaccineNameAndManufacturer(VaccineRequestDTO body) {
+        Optional<Vaccine> vaccineNameAndManufacturer = this.vaccineRepository.findByVaccineNameAndManufacturer(body.getVaccineName(), body.getManufacturer());
+        if ( vaccineNameAndManufacturer.isPresent()) {
+            throw new VaccineNameAndManufacturerAlreadyExistsException(body.getVaccineName().getValue(), body.getManufacturer());
+        }
     }
 }

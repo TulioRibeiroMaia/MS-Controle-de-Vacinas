@@ -3,6 +3,8 @@ package mscitizen.service.implementation;
 import mscitizen.dto.request.EmployeeRequestDTO;
 import mscitizen.dto.response.EmployeeResponseDTO;
 import mscitizen.entity.Employee;
+import mscitizen.exceptions.CpfAlreadyExistsException;
+import mscitizen.exceptions.CpfDoesntExistsException;
 import mscitizen.exceptions.ResourceNotFoundException;
 import mscitizen.repository.EmployeeRepository;
 import mscitizen.repository.HealthCenterRepository;
@@ -26,10 +28,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
 
     @Override
     public EmployeeResponseDTO save(EmployeeRequestDTO body) {
-        Optional<Employee> employeeOptional = this.employeeRepository.findByCpf(body.getCpf());
-        if (employeeOptional.isPresent()){
-            throw new IllegalArgumentException("Funcionário com o cpf " + body.getCpf() + " já cadastrado!");
-        }
+        validateIfCPFExists(body);
         Employee employee = modelMapper.map(body, Employee.class);
         Employee savedEmployee = this.employeeRepository.save(employee);
         return modelMapper.map(savedEmployee, EmployeeResponseDTO.class);
@@ -49,7 +48,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
                 .stream()
                 .map(employee -> modelMapper
                         .map(employee, EmployeeResponseDTO.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -60,7 +59,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
             return modelMapper.map(employee.get(), EmployeeResponseDTO.class);
         }
 
-        throw new ResourceNotFoundException("CPF " + cpf);
+        throw new CpfDoesntExistsException(cpf);
     }
 
     @Override
@@ -75,17 +74,24 @@ public class EmployeeServiceImplementation implements EmployeeService {
             return modelMapper.map(updatedEmployee, EmployeeResponseDTO.class);
         }
 
-        throw new ResourceNotFoundException("CPF " + cpf);
+        throw new CpfDoesntExistsException(cpf);
     }
 
     @Override
     public void deleteEmployee(String cpf) {
         Optional<Employee> employee = this.employeeRepository.findByCpf(cpf);
 
-        if (!employee.isPresent()) {
-            throw new ResourceNotFoundException("CPF " + cpf);
+        if (employee.isEmpty()) {
+            throw new CpfDoesntExistsException(cpf);
         }
 
         this.employeeRepository.deleteById(employee.get().getId());
+    }
+
+    private void validateIfCPFExists(EmployeeRequestDTO body) {
+        Optional<Employee> employeeOptional = this.employeeRepository.findByCpf(body.getCpf());
+        if (employeeOptional.isPresent()){
+            throw new CpfAlreadyExistsException(body.getCpf());
+        }
     }
 }
