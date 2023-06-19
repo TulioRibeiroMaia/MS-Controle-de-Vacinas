@@ -26,9 +26,9 @@ public class VaccineServiceImplementation implements VaccineService {
 
     @Override
     public VaccineResponseDTO save(VaccineRequestDTO body) {
-        Vaccine vaccine = modelMapper.map(body, Vaccine.class);
-        Vaccine savedVaccine = this.vaccineRepository.save(vaccine);
-        return modelMapper.map(savedVaccine, VaccineResponseDTO.class);
+       Vaccine vaccine = modelMapper.map(body, Vaccine.class);
+       Vaccine savedVaccine = this.vaccineRepository.save(vaccine);
+       return modelMapper.map(savedVaccine,VaccineResponseDTO.class);
     }
 
     @Override
