@@ -30,8 +30,13 @@ public class CitizenServiceImplementation implements CitizenService {
 
     @Override
     public CitizenResponseDTO save(CitizenRequestDTO body) {
-        Citizen citizen = modelMapper.map(body, Citizen.class);
-        Citizen savedCitizen = this.citizenRepository.save(citizen);
+        Optional<Citizen> citizen = this.citizenRepository.findByCpf(body.getCpf());
+        if (citizen.isPresent()){
+            throw new IllegalArgumentException("Não é possível cadastrar um novo cidadão pois o CPF " + body.getCpf() + " já está cadastrado!");
+        }
+
+        Citizen citizen1 = modelMapper.map(body, Citizen.class);
+        Citizen savedCitizen = this.citizenRepository.save(citizen1);
         return modelMapper.map(savedCitizen, CitizenResponseDTO.class);
     }
 
@@ -43,9 +48,9 @@ public class CitizenServiceImplementation implements CitizenService {
             citizens = this.citizenRepository.findByFullNameIgnoreCaseContaining(fullName);
         } else if (startDate != null) {
             if (endDate != null) {
-                citizens = this.citizenRepository.findByBirthDateBetween(startDate, endDate);
+                citizens = this.citizenRepository.findBybirthdateBetween(startDate, endDate);
             } else {
-                citizens = this.citizenRepository.findByBirthDateBetween(startDate, LocalDate.now());
+                citizens = this.citizenRepository.findBybirthdateBetween(startDate, LocalDate.now());
             }
         } else {
             citizens = this.citizenRepository.findAll();

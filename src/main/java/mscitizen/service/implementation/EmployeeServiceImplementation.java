@@ -26,6 +26,10 @@ public class EmployeeServiceImplementation implements EmployeeService {
 
     @Override
     public EmployeeResponseDTO save(EmployeeRequestDTO body) {
+        Optional<Employee> employeeOptional = this.employeeRepository.findByCpf(body.getCpf());
+        if (employeeOptional.isPresent()){
+            throw new IllegalArgumentException("Funcionário com o cpf " + body.getCpf() + " já cadastrado!");
+        }
         Employee employee = modelMapper.map(body, Employee.class);
         Employee savedEmployee = this.employeeRepository.save(employee);
         return modelMapper.map(savedEmployee, EmployeeResponseDTO.class);
