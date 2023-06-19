@@ -16,22 +16,27 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Builder
+@Table(name = "Vaccine")
 public class Vaccine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "vaccineName")
     @Enumerated(EnumType.STRING)
     private VaccineName vaccineName;
 
+    @Column(name = "manufacturer")
     private String manufacturer;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "manufactureDate", columnDefinition = "TIMESTAMP")
     private LocalDate manufactureDate;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "expirationDate", columnDefinition = "TIMESTAMP")
     private LocalDate expirationDate;
 
+    @Column(name = "lotNumber")
     private String lotNumber;
 }

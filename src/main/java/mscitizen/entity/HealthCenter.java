@@ -14,22 +14,28 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Builder
+@Table(name = "HealthCenter")
 public class HealthCenter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "cnes", unique = true)
     private String cnes;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "city")
     private String city;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "state")
     private State state;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "healthCenter", cascade = CascadeType.ALL)
+    @Column(name = "employees")
     private List<Employee> employees;
 }

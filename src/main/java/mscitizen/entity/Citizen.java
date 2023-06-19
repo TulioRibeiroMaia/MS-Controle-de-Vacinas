@@ -14,24 +14,28 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "Citizen")
 public class Citizen {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "cpf", unique = true)
     private String cpf;
 
+    @Column(name = "fullName")
     public String fullName;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    public LocalDate birthDate;
+    @Column(name = "birthdate", columnDefinition = "TIMESTAMP")
+    public LocalDate birthdate;
 
     @Enumerated(EnumType.STRING)
-
+    @Column(name = "userRole")
     public UserRole userRole = UserRole.USUARIO;
 
+    @Column(name = "cns")
     private String cns;
 
 }

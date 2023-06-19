@@ -18,7 +18,7 @@ public class CitizenResponseDTO {
     private String fullName;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate birthDate;
+    private LocalDate birthdate;
 
     private String cns;
 }

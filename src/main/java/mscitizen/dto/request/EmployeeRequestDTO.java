@@ -33,7 +33,7 @@ public class EmployeeRequestDTO {
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @NotNull
-    private LocalDate birthDate;
+    private LocalDate birthdate;
 
     @NotNull
     private UserRole userRole;

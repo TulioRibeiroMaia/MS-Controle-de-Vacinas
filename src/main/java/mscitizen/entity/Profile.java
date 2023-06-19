@@ -5,23 +5,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mscitizen.enums.UserRole;
-import org.springframework.security.core.GrantedAuthority;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Profile implements GrantedAuthority {
+public class Profile  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "userRole")
     private UserRole userRole;
 
-    @Override
-    public String getAuthority() {
-        return String.valueOf(userRole);
-    }
+//    @Override
+//    public String getAuthority() {
+//        return String.valueOf(userRole);
+//    }
 }

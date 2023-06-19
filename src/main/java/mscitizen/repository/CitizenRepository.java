@@ -1,7 +1,6 @@
 package mscitizen.repository;
 
 import mscitizen.entity.Citizen;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
@@ -14,5 +13,5 @@ public interface CitizenRepository extends JpaRepository<Citizen, Long> {
 
     List<Citizen> findByFullNameIgnoreCaseContaining(String fullName);
 
-    List<Citizen> findByBirthDateBetween(LocalDate startDate, LocalDate endDate);
+    List<Citizen> findBybirthdateBetween(LocalDate startdate, LocalDate enddate);
 }

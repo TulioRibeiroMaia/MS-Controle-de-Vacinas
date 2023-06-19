@@ -25,7 +25,7 @@ public class CitizenRequestDTO {
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @NotNull
-    private LocalDate birthDate;
+    private LocalDate birthdate;
 
     @Size(min = 15, max = 15, message = "Tamanho inválido: o número do CNS deve conter 15 dígitos")
     private String cns;

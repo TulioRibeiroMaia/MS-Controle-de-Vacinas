@@ -22,7 +22,7 @@ public class EmployeeResponseDTO {
     private String email;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate birthDate;
+    private LocalDate birthdate;
 
     private UserRole userRole;
 
