@@ -1,4 +1,4 @@
-package mscitizen.config.token;
+package mscitizen.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mscitizen.entity.User;
+import mscitizen.enums.TokenType;
 
 @Data
 @Builder
@@ -37,6 +37,5 @@ public class Token {
   public boolean expired;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
   public User user;
 }

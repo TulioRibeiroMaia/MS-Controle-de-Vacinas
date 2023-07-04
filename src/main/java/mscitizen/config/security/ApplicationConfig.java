@@ -2,8 +2,10 @@ package mscitizen.config.security;
 
 
 import lombok.RequiredArgsConstructor;
-import mscitizen.entity.UserRepository;
+import mscitizen.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -15,11 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@RequiredArgsConstructor
 public class ApplicationConfig {
 
-  private final UserRepository repository;
-
+  private UserRepository repository;
   @Bean
   public UserDetailsService userDetailsService() {
     return username -> repository.findByEmail(username)

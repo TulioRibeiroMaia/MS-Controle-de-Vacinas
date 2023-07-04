@@ -1,4 +1,4 @@
-package mscitizen.entity;
+package mscitizen.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

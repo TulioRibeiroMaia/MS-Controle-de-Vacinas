@@ -1,4 +1,4 @@
-package mscitizen.entity;
+package mscitizen.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static mscitizen.entity.Permission.ADMIN_CREATE;
-import static mscitizen.entity.Permission.ADMIN_DELETE;
-import static mscitizen.entity.Permission.ADMIN_READ;
-import static mscitizen.entity.Permission.ADMIN_UPDATE;
-import static mscitizen.entity.Permission.MANAGER_CREATE;
-import static mscitizen.entity.Permission.MANAGER_DELETE;
-import static mscitizen.entity.Permission.MANAGER_READ;
-import static mscitizen.entity.Permission.MANAGER_UPDATE;
+import static mscitizen.enums.Permission.ADMIN_CREATE;
+import static mscitizen.enums.Permission.ADMIN_DELETE;
+import static mscitizen.enums.Permission.ADMIN_READ;
+import static mscitizen.enums.Permission.ADMIN_UPDATE;
+import static mscitizen.enums.Permission.MANAGER_CREATE;
+import static mscitizen.enums.Permission.MANAGER_DELETE;
+import static mscitizen.enums.Permission.MANAGER_READ;
+import static mscitizen.enums.Permission.MANAGER_UPDATE;
 
 @RequiredArgsConstructor
 public enum Role {

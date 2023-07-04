@@ -1,4 +1,4 @@
-package mscitizen.config.token;
+package mscitizen.enums;
 
 public enum TokenType {
   BEARER

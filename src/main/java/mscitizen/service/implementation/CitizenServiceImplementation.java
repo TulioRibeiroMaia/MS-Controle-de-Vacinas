@@ -20,10 +20,8 @@ import java.util.stream.Collectors;
 @Service
 public class CitizenServiceImplementation implements CitizenService {
 
-    @Autowired
     private CitizenRepository citizenRepository;
 
-    @Autowired
     private VaccineRepository vaccineRepository;
 
     @Autowired

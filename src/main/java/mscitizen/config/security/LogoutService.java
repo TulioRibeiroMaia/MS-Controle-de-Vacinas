@@ -3,7 +3,7 @@ package mscitizen.config.security;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import mscitizen.config.token.TokenRepository;
+import mscitizen.repository.TokenRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LogoutService implements LogoutHandler {
 
-  private final TokenRepository tokenRepository;
+  private TokenRepository tokenRepository;
 
   @Override
   public void logout(

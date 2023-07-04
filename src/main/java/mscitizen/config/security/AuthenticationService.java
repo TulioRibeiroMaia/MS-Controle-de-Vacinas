@@ -4,14 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import mscitizen.config.token.Token;
-import mscitizen.config.token.TokenRepository;
-import mscitizen.config.token.TokenType;
+import mscitizen.entity.Token;
+import mscitizen.repository.TokenRepository;
+import mscitizen.enums.TokenType;
 import mscitizen.dto.request.AuthenticationRequestDTO;
 import mscitizen.dto.request.RegisterRequestDTO;
 import mscitizen.dto.response.AuthenticationResponseDTO;
 import mscitizen.entity.User;
-import mscitizen.entity.UserRepository;
+import mscitizen.repository.UserRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,8 +23,8 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UserRepository repository;
-    private final TokenRepository tokenRepository;
+    private UserRepository repository;
+    private  TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;

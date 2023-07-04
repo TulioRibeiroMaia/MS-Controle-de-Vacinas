@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mscitizen.entity.Role;
+import mscitizen.enums.Role;
 
 @Data
 @Builder
