@@ -4,7 +4,6 @@ import mscitizen.dto.request.VaccineRequestDTO;
 import mscitizen.dto.response.VaccineResponseDTO;
 import mscitizen.entity.Vaccine;
 import mscitizen.exceptions.LotNumberAlreadyExistsException;
-import mscitizen.exceptions.ResourceNotFoundException;
 import mscitizen.exceptions.VaccineIDDoesntExistsException;
 import mscitizen.exceptions.VaccineNameAndManufacturerAlreadyExistsException;
 import mscitizen.repository.VaccineRepository;

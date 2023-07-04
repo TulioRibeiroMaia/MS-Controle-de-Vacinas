@@ -5,8 +5,8 @@ import mscitizen.dto.response.HealthCenterResponseDTO;
 import mscitizen.entity.HealthCenter;
 import mscitizen.enums.State;
 import mscitizen.exceptions.CnesDoesnExistsException;
-import mscitizen.exceptions.ResourceNotFoundException;
 import mscitizen.repository.HealthCenterRepository;
+import mscitizen.exceptions.CnesExistsException;
 import mscitizen.service.HealthCenterService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,7 @@ public class HealthCenterImplementation implements HealthCenterService {
 
     @Override
     public HealthCenterResponseDTO save(HealthCenterRequestDTO body) {
+        validateIfCNESExists(body);
         HealthCenter healthCenter = modelMapper.map(body, HealthCenter.class);
         HealthCenter savedHealthCenter = this.healthCenterRepository.save(healthCenter);
         return modelMapper.map(savedHealthCenter, HealthCenterResponseDTO.class);
@@ -89,5 +90,12 @@ public class HealthCenterImplementation implements HealthCenterService {
         }
 
         this.healthCenterRepository.deleteById(healthCenter.get().getId());
+    }
+
+    private void validateIfCNESExists(HealthCenterRequestDTO body) {
+        Optional<HealthCenter> healthCenterOptional = this.healthCenterRepository.findByCnes(body.getCnes());
+        if (healthCenterOptional.isPresent()){
+            throw new CnesExistsException(body.getCnes());
+        }
     }
 }

@@ -5,9 +5,7 @@ import mscitizen.dto.response.EmployeeResponseDTO;
 import mscitizen.entity.Employee;
 import mscitizen.exceptions.CpfAlreadyExistsException;
 import mscitizen.exceptions.CpfDoesntExistsException;
-import mscitizen.exceptions.ResourceNotFoundException;
 import mscitizen.repository.EmployeeRepository;
-import mscitizen.repository.HealthCenterRepository;
 import mscitizen.service.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImplementation implements EmployeeService {

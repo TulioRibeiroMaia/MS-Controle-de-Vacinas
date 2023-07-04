@@ -5,7 +5,6 @@ import mscitizen.dto.response.CitizenResponseDTO;
 import mscitizen.entity.Citizen;
 import mscitizen.exceptions.CpfAlreadyExistsException;
 import mscitizen.exceptions.CpfDoesntExistsException;
-import mscitizen.exceptions.ResourceNotFoundException;
 import mscitizen.repository.CitizenRepository;
 import mscitizen.repository.VaccineRepository;
 import mscitizen.service.CitizenService;
