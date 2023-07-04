@@ -7,6 +7,6 @@ CREATE TABLE Employee (
     email VARCHAR(255),
     password VARCHAR(255),
     health_centerid INT,
-    FOREIGN KEY (health_centerid) REFERENCES HealthCenter(id),
+--    FOREIGN KEY (health_centerid) REFERENCES HealthCenter(id),
     PRIMARY KEY(id)
 );
