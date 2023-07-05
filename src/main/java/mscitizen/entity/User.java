@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mscitizen.enums.Role;
+import mscitizen.enums.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,14 +31,14 @@ public class User implements UserDetails {
   private String password;
 
   @Enumerated(EnumType.STRING)
-  private Role role;
+  private UserRole userRole;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Token> tokens;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return role.getAuthorities();
+    return userRole.getAuthorities();
   }
 
   @Override

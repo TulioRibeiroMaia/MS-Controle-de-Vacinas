@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class VaccineServiceImplementation implements VaccineService {
 
-
+    @Autowired
     private VaccineRepository vaccineRepository;
 
     @Autowired

@@ -12,6 +12,7 @@ import mscitizen.dto.request.RegisterRequestDTO;
 import mscitizen.dto.response.AuthenticationResponseDTO;
 import mscitizen.entity.User;
 import mscitizen.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,13 +22,17 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService {
-    private UserRepository repository;
+    @Autowired
+    private  UserRepository repository;
+    @Autowired
     private  TokenRepository tokenRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+    @Autowired
+    private  PasswordEncoder passwordEncoder;
+    @Autowired
+    private  JwtService jwtService;
+    @Autowired
+    private  AuthenticationManager authenticationManager;
 
     public AuthenticationResponseDTO register(RegisterRequestDTO request) {
         var user = User.builder()
@@ -35,7 +40,7 @@ public class AuthenticationService {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .userRole(request.getUserRole())
                 .build();
         var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);

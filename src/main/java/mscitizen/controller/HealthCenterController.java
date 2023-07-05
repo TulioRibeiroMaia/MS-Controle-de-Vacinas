@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class HealthCenterController {
     private HealthCenterService service;
 
     //cadastra novos postos de saúde
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @Transactional
     public ResponseEntity<HealthCenterResponseDTO> saveHealthCenter(@RequestBody @Valid HealthCenterRequestDTO body) {
@@ -46,7 +47,7 @@ public class HealthCenterController {
     }
 
     //atualiza os dados de um posto de saúde
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{cnes}")
     @Transactional
     public ResponseEntity<HealthCenterResponseDTO> updateHealthCenter(@PathVariable String cnes, @RequestBody @Valid HealthCenterRequestDTO body) {
@@ -55,7 +56,7 @@ public class HealthCenterController {
     }
 
     //deleta um posto de saúde
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{cnes}")
     @Transactional
     public ResponseEntity<?> deleteHealthCenter(@PathVariable String cnes) {

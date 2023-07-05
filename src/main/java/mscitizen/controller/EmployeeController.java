@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class EmployeeController {
     private EmployeeService service;
 
     //cadastra novos funcionários
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @Transactional
     public ResponseEntity<EmployeeResponseDTO> saveEmployee(@RequestBody @Valid EmployeeRequestDTO body) {
@@ -30,7 +31,7 @@ public class EmployeeController {
     }
 
     //lista os empregados com filtro por nome.
-//    @PreAuthorize("hasAnyRole('ADMIN','FUNCIONARIO')")
+    @PreAuthorize("hasAnyRole('ADMIN','FUNCIONARIO')")
     @GetMapping
     public ResponseEntity<List<EmployeeResponseDTO>> getEmployees(@RequestParam(name = "nome", required = false) String fullName) {
         List<EmployeeResponseDTO> employee = this.service.getEmployees(fullName);
@@ -38,7 +39,7 @@ public class EmployeeController {
     }
 
     //procura o empregado pelo seu cpf
-//    @PreAuthorize("hasAnyRole('ADMIN','FUNCIONARIO')")
+    @PreAuthorize("hasAnyRole('ADMIN','FUNCIONARIO')")
     @GetMapping("/{cpf}")
     public ResponseEntity<EmployeeResponseDTO> searchEmployee(@PathVariable String cpf){
         EmployeeResponseDTO employee = this.service.searchEmployee(cpf);
@@ -46,7 +47,7 @@ public class EmployeeController {
     }
 
     //atualiza os dados de um empregado
-//    @PreAuthorize("hasRole('ADMIN')")
+   @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{cpf}")
     @Transactional
     public ResponseEntity<EmployeeResponseDTO> updateEmployee(@PathVariable String cpf, @RequestBody @Valid EmployeeRequestDTO body) {
@@ -55,7 +56,7 @@ public class EmployeeController {
     }
 
     //deleta um empregado
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{cpf}")
     @Transactional
     public ResponseEntity<?> deleteEmployee(@PathVariable String cpf) {

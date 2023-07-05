@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class HealthCenterImplementation implements HealthCenterService {
 
-
+    @Autowired
     private HealthCenterRepository healthCenterRepository;
 
     @Autowired

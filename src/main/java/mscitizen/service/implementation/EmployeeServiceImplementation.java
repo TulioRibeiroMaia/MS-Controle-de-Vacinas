@@ -17,9 +17,8 @@ import java.util.Optional;
 @Service
 public class EmployeeServiceImplementation implements EmployeeService {
 
-
+    @Autowired
     private EmployeeRepository employeeRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 

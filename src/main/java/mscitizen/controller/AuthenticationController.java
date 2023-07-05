@@ -7,7 +7,9 @@ import mscitizen.config.security.AuthenticationService;
 import mscitizen.dto.request.AuthenticationRequestDTO;
 import mscitizen.dto.request.RegisterRequestDTO;
 import mscitizen.dto.response.AuthenticationResponseDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +21,7 @@ import java.io.IOException;
 @RequestMapping("/login")
 @RequiredArgsConstructor
 public class AuthenticationController {
-
+  @Autowired
   private final AuthenticationService service;
 
   @PostMapping("/register")

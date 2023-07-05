@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class VaccineController {
     private VaccineService service;
 
     //cadastra novas vacinas
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @Transactional
     public ResponseEntity<VaccineResponseDTO> saveVaccine(@RequestBody @Valid VaccineRequestDTO body) {
@@ -44,7 +46,7 @@ public class VaccineController {
     }
 
     //atualiza os dados de uma vacina referenciado ao id
-//    @PreAuthorize("hasRole('ADMIN')")
+   @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<?> updateVaccine(@PathVariable Long id, @RequestBody @Valid VaccineRequestDTO body) {
@@ -53,7 +55,7 @@ public class VaccineController {
     }
 
     //deleta uma vacina
-//    @PreAuthorize("hasRole('ADMIN')")
+   @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> deleteVaccine(@PathVariable Long id) {

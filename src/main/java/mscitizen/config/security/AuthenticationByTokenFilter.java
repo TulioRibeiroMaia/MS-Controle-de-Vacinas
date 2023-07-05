@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import mscitizen.config.token.TokenService;
 import mscitizen.entity.Employee;
 import mscitizen.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -18,8 +19,9 @@ import java.io.IOException;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationByTokenFilter extends OncePerRequestFilter {
-
+    @Autowired
     private TokenService tokenService;
+    @Autowired
     private EmployeeRepository employeeRepository;
 
     @Override

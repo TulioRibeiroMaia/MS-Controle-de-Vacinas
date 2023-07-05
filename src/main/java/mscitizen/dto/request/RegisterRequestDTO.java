@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mscitizen.enums.Role;
+import mscitizen.enums.UserRole;
 
 @Data
 @Builder
@@ -16,5 +16,5 @@ public class RegisterRequestDTO {
   private String lastname;
   private String email;
   private String password;
-  private Role role;
+  private UserRole userRole;
 }

@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ public class CitizenController {
     private CitizenService service;
 
     //cadastra novos cidadãos
-//    @PreAuthorize("hasAnyRole('ADMIN', 'FUNCIONARIO')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'FUNCIONARIO')")
     @PostMapping
     @Transactional
     public ResponseEntity<CitizenResponseDTO> saveCitizen(@RequestBody @Valid CitizenRequestDTO body) {
@@ -35,7 +36,7 @@ public class CitizenController {
 
 
     //lista os cidadãos com filtro por nome e idade.
-//    @PreAuthorize("hasAnyRole('ADMIN', 'FUNCIONARIO')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'FUNCIONARIO')")
     @GetMapping
     public ResponseEntity<List<CitizenResponseDTO>> getCitizens(@RequestParam(name = "nome", required = false) String fullName,
                                                                 @RequestParam(name = "data-inicial", required = false) @DateTimeFormat(pattern = "ddMMyyyy") LocalDate startDate,
@@ -61,7 +62,7 @@ public class CitizenController {
     }
 
     //deleta um cidadão
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{cpf}")
     @Transactional
     public ResponseEntity<?> deleteCitizen(@PathVariable String cpf) {
