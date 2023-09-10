@@ -51,26 +51,24 @@ public class EmployeeServiceImplementation implements EmployeeService {
     public EmployeeResponseDTO searchEmployee(String cpf) {
         Optional<Employee> employee = this.employeeRepository.findByCpf(cpf);
 
-        if (employee.isPresent()) {
-            return modelMapper.map(employee.get(), EmployeeResponseDTO.class);
+        if (employee.isEmpty()) {
+            throw new CpfDoesntExistsException(cpf);
         }
-
-        throw new CpfDoesntExistsException(cpf);
+        return modelMapper.map(employee.get(), EmployeeResponseDTO.class);
     }
 
     @Override
     public EmployeeResponseDTO updateEmployee(String cpf, EmployeeRequestDTO body) {
         Optional<Employee> employee = this.employeeRepository.findByCpf(cpf);
 
-        if (employee.isPresent()) {
-            Employee updatedEmployee = modelMapper.map(body, Employee.class);
-            updatedEmployee.setId(employee.get().getId());
-            this.employeeRepository.save(updatedEmployee);
-
-            return modelMapper.map(updatedEmployee, EmployeeResponseDTO.class);
+        if (employee.isEmpty()) {
+            throw new CpfDoesntExistsException(cpf);
         }
+        Employee updatedEmployee = modelMapper.map(body, Employee.class);
+        updatedEmployee.setId(employee.get().getId());
+        this.employeeRepository.save(updatedEmployee);
 
-        throw new CpfDoesntExistsException(cpf);
+        return modelMapper.map(updatedEmployee, EmployeeResponseDTO.class);
     }
 
     @Override

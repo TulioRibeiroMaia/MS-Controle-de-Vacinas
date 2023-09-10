@@ -63,33 +63,33 @@ public class CitizenServiceImplementation implements CitizenService {
     public CitizenResponseDTO searchCitizen(String cpf) {
         Optional<Citizen> citizen = this.citizenRepository.findByCpf(cpf);
 
-        if (citizen.isPresent()) {
-            return modelMapper.map(citizen.get(), CitizenResponseDTO.class);
-        }
+        if (citizen.isEmpty()) {
+            throw new CpfDoesntExistsException(cpf);
 
-        throw new CpfDoesntExistsException(cpf);
+        }
+        return modelMapper.map(citizen.get(), CitizenResponseDTO.class);
     }
 
     @Override
     public CitizenResponseDTO updateCitizen(String cpf, CitizenRequestDTO body) {
         Optional<Citizen> citizen = this.citizenRepository.findByCpf(cpf);
 
-        if (citizen.isPresent()) {
-            Citizen updatedCitizen = modelMapper.map(body, Citizen.class);
-            updatedCitizen.setId(citizen.get().getId());
-            this.citizenRepository.save(updatedCitizen);
+        if (citizen.isEmpty()) {
+            throw new CpfDoesntExistsException(cpf);
 
-            return modelMapper.map(updatedCitizen, CitizenResponseDTO.class);
         }
+        Citizen updatedCitizen = modelMapper.map(body, Citizen.class);
+        updatedCitizen.setId(citizen.get().getId());
+        this.citizenRepository.save(updatedCitizen);
 
-        throw new CpfDoesntExistsException(cpf);
+        return modelMapper.map(updatedCitizen, CitizenResponseDTO.class);
     }
 
     @Override
     public void deleteCitizen(String cpf) {
         Optional<Citizen> citizen = this.citizenRepository.findByCpf(cpf);
 
-        if (!citizen.isPresent()) {
+        if (citizen.isEmpty()) {
             throw new CpfDoesntExistsException(cpf);
         }
 

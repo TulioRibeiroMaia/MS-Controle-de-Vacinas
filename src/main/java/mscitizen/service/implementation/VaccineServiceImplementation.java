@@ -59,36 +59,33 @@ public class VaccineServiceImplementation implements VaccineService {
     public VaccineResponseDTO searchVaccine(Long id) {
         Optional<Vaccine> vaccine = this.vaccineRepository.findById(id);
 
-        if (vaccine.isPresent()) {
-            return modelMapper.map(vaccine.get(), VaccineResponseDTO.class);
+        if (vaccine.isEmpty()) {
+            throw new VaccineIDDoesntExistsException(id);
         }
-
-        throw new VaccineIDDoesntExistsException(id);
+        return modelMapper.map(vaccine.get(), VaccineResponseDTO.class);
     }
 
     @Override
     public VaccineResponseDTO updateVaccine(Long id, VaccineRequestDTO body) {
         Optional<Vaccine> vaccine = this.vaccineRepository.findById(id);
 
-        if (vaccine.isPresent()) {
-            Vaccine updatedVaccine = modelMapper.map(body, Vaccine.class);
-            updatedVaccine.setId(id);
-            this.vaccineRepository.save(updatedVaccine);
-
-            return modelMapper.map(updatedVaccine, VaccineResponseDTO.class);
+        if (vaccine.isEmpty()) {
+            throw new VaccineIDDoesntExistsException(id);
         }
+        Vaccine updatedVaccine = modelMapper.map(body, Vaccine.class);
+        updatedVaccine.setId(id);
+        this.vaccineRepository.save(updatedVaccine);
 
-        throw new VaccineIDDoesntExistsException(id);
+        return modelMapper.map(updatedVaccine, VaccineResponseDTO.class);
     }
 
     @Override
     public void deleteVaccine(Long id) {
         Optional<Vaccine> vaccine = this.vaccineRepository.findById(id);
 
-        if (!vaccine.isPresent()) {
+        if (vaccine.isEmpty()) {
             throw new VaccineIDDoesntExistsException(id);
         }
-
         this.vaccineRepository.deleteById(id);
     }
 

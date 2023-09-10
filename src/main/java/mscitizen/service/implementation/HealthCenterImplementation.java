@@ -59,33 +59,32 @@ public class HealthCenterImplementation implements HealthCenterService {
     public HealthCenterResponseDTO searchHealthCenter(String cnes) {
         Optional<HealthCenter> healthCenter = this.healthCenterRepository.findByCnes(cnes);
 
-        if (healthCenter.isPresent()) {
-            return modelMapper.map(healthCenter.get(), HealthCenterResponseDTO.class);
+        if (healthCenter.isEmpty()) {
+            throw new CnesDoesnExistsException(cnes);
         }
-
-        throw new CnesDoesnExistsException(cnes);
+        return modelMapper.map(healthCenter.get(), HealthCenterResponseDTO.class);
     }
 
     @Override
     public HealthCenterResponseDTO updateHealthCenter(String cnes, HealthCenterRequestDTO body) {
         Optional<HealthCenter> healthCenter = this.healthCenterRepository.findByCnes(cnes);
 
-        if (healthCenter.isPresent()) {
-            HealthCenter updatedHealthCenter = modelMapper.map(body, HealthCenter.class);
-            updatedHealthCenter.setId(healthCenter.get().getId());
-            this.healthCenterRepository.save(updatedHealthCenter);
-
-            return modelMapper.map(updatedHealthCenter, HealthCenterResponseDTO.class);
+        if (healthCenter.isEmpty()) {
+            throw new CnesDoesnExistsException(cnes);
         }
+        HealthCenter updatedHealthCenter = modelMapper.map(body, HealthCenter.class);
+        updatedHealthCenter.setId(healthCenter.get().getId());
+        this.healthCenterRepository.save(updatedHealthCenter);
 
-        throw new CnesDoesnExistsException(cnes);
+        return modelMapper.map(updatedHealthCenter, HealthCenterResponseDTO.class);
+
     }
 
     @Override
     public void deleteHealthCenter(String cnes) {
         Optional<HealthCenter> healthCenter = this.healthCenterRepository.findByCnes(cnes);
 
-        if (!healthCenter.isPresent()) {
+        if (healthCenter.isEmpty()) {
             throw new CnesDoesnExistsException(cnes);
         }
 

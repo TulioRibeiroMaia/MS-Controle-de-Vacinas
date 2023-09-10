@@ -60,6 +60,6 @@ public class VaccineController {
     @Transactional
     public ResponseEntity<?> deleteVaccine(@PathVariable Long id) {
         this.service.deleteVaccine(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
